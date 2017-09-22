@@ -2,7 +2,8 @@
     $.fn.cityAutocomplete = function(options) {
         var settings = $.extend({
             show_state: false,
-            show_country: false
+            show_country: false,
+            min_length: 0
         }, options);
         var autocompleteService = new google.maps.places.AutocompleteService();
         var predictionsDropDown = $('<div class="city-autocomplete"></div>').appendTo('body');
@@ -11,7 +12,7 @@
         input.keyup(function() {
             var searchStr = $(this).val();
 
-            if (searchStr.length > 0) {
+            if ((settings.min_length > 0 && searchStr.length >= settings.min_length) || (settings.min_length === 0 && searchStr.length>0)) {
                 var params = {
                     input: searchStr,
                     types: ['(cities)']
